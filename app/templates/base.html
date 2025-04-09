@@ -2,24 +2,70 @@
 <html lang="ja">
 <head>
   <meta charset="UTF-8">
-  <title>{% block title %}補助金アプリ{% endblock %}</title>
+  <title>{% block title %}ホジョッタ！{% endblock %}</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <style>
+    header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 10px 20px;
+      background-color: #e6f0fa;
+      border-bottom: 1px solid #ccc;
+      flex-wrap: wrap;
+    }
+    header img {
+      height: 40px;
+    }
+    nav {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      font-size: 0.9em;
+    }
+    nav a {
+      color: #0a539e;
+      text-decoration: none;
+      font-weight: bold;
+    }
+    nav a:hover {
+      text-decoration: underline;
+    }
+    @media (max-width: 600px) {
+      header {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+      nav {
+        flex-direction: column;
+        align-items: flex-start;
+        margin-top: 10px;
+      }
+    }
+  </style>
 </head>
 <body>
-  <!-- 🔹 共通ヘッダー -->
-  <div style="text-align: right; margin: 10px;">
-    {% if request.session.get("user") %}
-      👤 {{ request.session['user']['username'] }}
-      <a href="/logout">[ログアウト]</a>
-    {% else %}
-      <a href="/login">ログイン</a> | <a href="/signup">新規登録</a>
-    {% endif %}
-  </div>
 
-  <hr>
+  <header>
+    <img src="{{ url_for('static', path='logo.png') }}" alt="ホジョッタロゴ">
 
-  <!-- 🔹 各ページの中身 -->
-  <div style="padding: 20px;">
+    <nav>
+      <a href="/">🏠 ホーム</a>
+      <a href="/profile">👤 プロフィール</a>
+      <a href="/mypage">📄 マイページ</a>
+      {% if request.session.get("user") %}
+        <span>ようこそ、{{ request.session['user']['username'] }} さん</span>
+        <a href="/logout">🚪 ログアウト</a>
+      {% else %}
+        <a href="/login">🔑 ログイン</a>
+        <a href="/signup">📝 新規登録</a>
+      {% endif %}
+    </nav>
+  </header>
+
+  <main style="padding: 20px;">
     {% block content %}{% endblock %}
-  </div>
+  </main>
+
 </body>
 </html>
