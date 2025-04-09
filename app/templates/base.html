@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <title>{% block title %}補助金アプリ{% endblock %}</title>
+</head>
+<body>
+  <!-- 🔹 共通ヘッダー -->
+  <div style="text-align: right; margin: 10px;">
+    {% if request.session.get("user") %}
+      👤 {{ request.session['user']['username'] }}
+      <a href="/logout">[ログアウト]</a>
+    {% else %}
+      <a href="/login">ログイン</a> | <a href="/signup">新規登録</a>
+    {% endif %}
+  </div>
+
+  <hr>
+
+  <!-- 🔹 各ページの中身 -->
+  <div style="padding: 20px;">
+    {% block content %}{% endblock %}
+  </div>
+</body>
+</html>

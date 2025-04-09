@@ -1,0 +1,47 @@
+{% extends "base.html" %}
+{% block title %}アップロード詳細{% endblock %}
+{% block content %}
+
+<h1>📄 アップロード詳細</h1>
+
+<ul>
+  <li><strong>ファイル名:</strong> {{ upload.filename }}</li>
+  <li><strong>現在のタイトル:</strong> {{ upload.title }}</li>
+  <li><strong>アップロード日時:</strong> {{ upload.upload_time[:19].replace('T', ' ') }}</li>
+</ul>
+
+<!-- ✏️ タイトル編集フォーム -->
+<h3>タイトルを編集する</h3>
+<form method="post" action="/upload/{{ upload.id }}/edit">
+  <input type="text" name="new_title" value="{{ upload.title }}" required>
+  <button type="submit">保存</button>
+</form>
+
+<!-- 🔁 再判定ボタン -->
+<h3>🧠 AI判定を再実行</h3>
+<form method="post" action="/upload/{{ upload.id }}/reanalyze">
+  <button type="submit">再判定する</button>
+</form>
+
+<hr>
+
+<h2>🧾 申請に必要なもの・必須の手続き</h2>
+{% if upload.requirements_summary %}
+  <pre style="background:#f0f8ff; padding:1em; border-radius:8px; white-space:pre-wrap;">
+{{ upload.requirements_summary }}
+  </pre>
+{% else %}
+  <p>（AIによる要約はまだありません）</p>
+{% endif %}
+
+<h2>🧠 対象判定</h2>
+<p><strong>判定:</strong> {{ upload.eligibility_status or "未判定" }}</p>
+{% if upload.eligibility_result %}
+  <pre style="background:#fff8dc; padding:1em; border-radius:8px; white-space:pre-wrap;">
+{{ upload.eligibility_result }}
+  </pre>
+{% endif %}
+
+<p><a href="/mypage">← マイページに戻る</a></p>
+
+{% endblock %}

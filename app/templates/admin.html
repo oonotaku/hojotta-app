@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+{% block title %}管理者パネル{% endblock %}
+{% block content %}
+<h1>🛡️ 管理者パネル</h1>
+
+<h2>ユーザーごとの履歴一覧</h2>
+{% for username, files in data.items() %}
+  <h3>👤 {{ username }}</h3>
+  <ul>
+    {% for file in files %}
+      <li>{{ file }}</li>
+    {% endfor %}
+  </ul>
+{% endfor %}
+{% endblock %}

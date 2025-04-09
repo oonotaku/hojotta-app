@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+{% block title %}マイページ{% endblock %}
+{% block content %}
+
+<h1>👋 {{ username }} さんのマイページ</h1>
+
+<h2>📤 新しい補助金PDFをアップロード</h2>
+<p><a href="/">アップロードページへ</a></p>
+<p>（あなたのID: {{ request.session['user']['id'] }}）</p>
+
+<h2>📄 アップロード済みファイル一覧</h2>
+{% if uploads %}
+  <ul>
+    {% for upload in uploads %}
+      <li>
+        {{ upload.title or upload.filename }}（{{ upload.upload_time[:10] }}）
+        - <a href="/upload/{{ upload.id }}">[詳細]</a>
+        - <a href="/download/{{ upload.filename }}">[ダウンロード]</a>
+        {% if upload.status %}
+          <br><small style="color:gray;">📌 {{ upload.status }}</small>
+        {% endif %}
+      </li>
+    {% endfor %}
+  </ul>
+{% else %}
+  <p>アップロード履歴はまだありません。</p>
+{% endif %}
+
+{% endblock %}

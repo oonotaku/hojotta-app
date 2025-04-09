@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+{% block title %}ユーザー一覧（管理者）{% endblock %}
+{% block content %}
+<h1>👥 ユーザー一覧</h1>
+
+<table border="1" cellpadding="10">
+  <tr>
+    <th>ID</th>
+    <th>ユーザー名</th>
+    <th>管理者？</th>
+    <th>詳細</th>
+  </tr>
+  {% for user in users %}
+    <tr>
+      <td>{{ user.id }}</td>
+      <td>{{ user.username }}</td>
+      <td>{{ '✅' if user.is_admin else '❌' }}</td>
+      <td><a href="/admin/user/{{ user.id }}">[詳細]</a></td>
+    </tr>
+  {% endfor %}
+</table>
+
+{% endblock %}

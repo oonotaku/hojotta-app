@@ -1,0 +1,30 @@
+{% extends "base.html" %}
+{% block title %}ユーザー詳細（管理者）{% endblock %}
+{% block content %}
+<h1>👤 ユーザー詳細：{{ target_user.username }}</h1>
+
+<ul>
+  <li>ID: {{ target_user.id }}</li>
+  <li>管理者: {{ '✅' if target_user.is_admin else '❌' }}</li>
+  <li>プロフィール情報: {{ target_user.profile_info or '（未登録）' }}</li>
+</ul>
+
+<h2>📄 アップロード履歴とチャットログ</h2>
+
+{% if logs %}
+  <ul>
+    {% for log in logs %}
+      <li>
+        <strong>{{ log.timestamp }}</strong><br>
+        📄 ファイル名: {{ log.filename }}<br>
+        🙋‍♂️ 質問: {{ log.question }}<br>
+        🤖 回答: {{ log.answer }}
+      </li>
+    {% endfor %}
+  </ul>
+{% else %}
+  <p>チャット履歴はまだありません。</p>
+{% endif %}
+
+<p><a href="/admin/users">← ユーザー一覧に戻る</a></p>
+{% endblock %}

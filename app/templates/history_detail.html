@@ -1,0 +1,36 @@
+{% extends "base.html" %}
+{% block title %}解析とチャット履歴{% endblock %}
+{% block content %}
+<h2>{{ filename }} の内容</h2>
+
+<div style="background:#eef; padding:10px; border-radius:5px;">
+  <h3>📌 GPTによる解析結果（提出物アドバイスなど）</h3>
+  <pre>{{ analysis }}</pre>
+</div>
+
+<hr>
+
+<div>
+  <h3>💬 チャット履歴</h3>
+  {% for item in history %}
+    <div style="margin-bottom:10px;">
+      <div style="text-align:right;">
+        <span style="display:inline-block; background:#DCF8C6; padding:10px; border-radius:10px; max-width:80%;">{{ item.question }}</span>
+      </div>
+      <div style="text-align:left;">
+        <span style="display:inline-block; background:#F1F0F0; padding:10px; border-radius:10px; max-width:80%;">{{ item.answer }}</span>
+      </div>
+      <div style="text-align:center; font-size:0.8em; color:#888;">{{ item.timestamp }}</div>
+    </div>
+  {% endfor %}
+</div>
+
+<hr>
+<h3>🔁 AIに追加質問する</h3>
+<form method="post">
+  <textarea name="question" rows="3" style="width:100%;" placeholder="続きを質問してみよう" required></textarea><br>
+  <button type="submit">送信</button>
+</form>
+
+<p><a href="/mypage">← 履歴一覧に戻る</a></p>
+{% endblock %}
