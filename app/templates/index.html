@@ -3,6 +3,12 @@
 {% block content %}
 <h1>補助金要領PDFアップロード</h1>
 
+<!-- 🔔 モーダル（ファイルアプリから選んでね） -->
+<div id="fileHintModal" style="display:none; position:fixed; top:30%; left:50%; transform:translate(-50%, -50%); background:#fff; padding:20px; border-radius:8px; box-shadow:0 2px 10px rgba(0,0,0,0.2); z-index:2000; max-width:90%; text-align:center;">
+  <p style="margin-bottom:10px;">📄 PDFファイルは「ファイルアプリ」や「ドライブ」から選択してください。</p>
+  <button onclick="document.getElementById('fileHintModal').style.display='none'">OK</button>
+</div>
+
 <form action="/upload" method="post" enctype="multipart/form-data">
   <input type="file" name="file" accept="application/pdf,image/*" required>
   <button type="submit">アップロード</button>
@@ -77,6 +83,18 @@
 
       document.getElementById("userQuestion").value = "";
     };
+  }
+  const fileInput = document.querySelector('input[type="file"]');
+  const hintModal = document.getElementById("fileHintModal");
+
+  if (fileInput && hintModal) {
+    fileInput.addEventListener("click", () => {
+      hintModal.style.display = "block";
+      // 5秒後に自動で閉じる（任意）
+      setTimeout(() => {
+        hintModal.style.display = "none";
+      }, 5000);
+    });
   }
 </script>
 {% endblock %}
