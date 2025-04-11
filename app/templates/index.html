@@ -1,96 +1,111 @@
 {% extends "base.html" %}
-{% block title %}トップページ{% endblock %}
+{% block title %}ホジョッタ！| モックトップ{% endblock %}
 {% block content %}
-<h1>補助金要領PDFアップロード</h1>
+<style>
+  .bubble {
+    background: white;
+    color: #005a9c;
+    padding: 12px 20px;
+    border-radius: 20px;
+    font-size: 1.5rem;
+    font-weight: bold;
+    margin-bottom: 20px;
+    display: inline-block;
+  }
 
-<!-- 🔔 モーダル（ファイルアプリから選んでね） -->
-<div id="fileHintModal" style="display:none; position:fixed; top:30%; left:50%; transform:translate(-50%, -50%); background:#fff; padding:20px; border-radius:8px; box-shadow:0 2px 10px rgba(0,0,0,0.2); z-index:2000; max-width:90%; text-align:center;">
+  .main-text {
+    font-size: 1.3rem;
+    font-weight: bold;
+    margin-bottom: 30px;
+    line-height: 1.6;
+  }
+
+  .btn {
+    background-color: #fff7eb;
+    color: #005a9c;
+    padding: 14px 32px;
+    border: none;
+    border-radius: 12px;
+    font-size: 1.2rem;
+    font-weight: bold;
+    text-decoration: none;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+  }
+
+  #drop-area {
+    background-color: #fff7eb;
+    color: #005a9c;
+    border: 2px dashed #ccc;
+    border-radius: 12px;
+    width: 90%;
+    max-width: 400px;
+    padding: 40px;
+    margin: 30px auto;
+    font-size: 1rem;
+    text-align: center;
+  }
+
+  #fileElem {
+    display: none;
+  }
+
+  #fileHintModal {
+    display: none;
+    position: fixed;
+    top: 30%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: #fff;
+    color: #333;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+    z-index: 2000;
+    max-width: 90%;
+    text-align: center;
+  }
+</style>
+
+<div class="bubble">うちジった！</div>
+<p class="main-text">うちの会社でもこの<br>補助金いける？</p>
+
+<div id="drop-area">
+  <p>📄 ここにPDFをドロップ<br>または下から選択</p>
+  <input type="file" id="fileElem" name="file" accept="application/pdf,image/*">
+  <label for="fileElem" class="btn">ファイルを選択</label>
+</div>
+
+<a href="check.html" class="btn" style="margin-top: 40px;">確認してみる</a>
+
+<div id="fileHintModal">
   <p style="margin-bottom:10px;">📄 PDFファイルは「ファイルアプリ」や「ドライブ」から選択してください。</p>
   <button onclick="document.getElementById('fileHintModal').style.display='none'">OK</button>
 </div>
 
-<form action="/upload" method="post" enctype="multipart/form-data">
-  <input type="file" name="file" accept="application/pdf,image/*" required>
-  <button type="submit">アップロード</button>
-</form>
-
-{% if filename %}
-  <h2>ファイル名: {{ filename }}</h2>
-  <h3>GPTによる解析結果:</h3>
-  <pre>{{ result }}</pre>
-  <button id="openChatBtn">💬 質問はこちら</button>
-{% endif %}
-
-<!-- モーダルウィンドウ（LINE風チャット） -->
-<div id="chatModal" class="modal" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background: rgba(0,0,0,0.5); z-index:1000;">
-  <div style="background:#fff; padding:20px; margin:5% auto; width:90%; max-width:600px; border-radius:8px;">
-    <span id="closeChatModal" style="float:right; cursor:pointer;">❌</span>
-    <h3>AIチャット</h3>
-
-    <div id="chatWindow" style="height:300px; overflow-y:auto; border:1px solid #ccc; padding:10px; margin-bottom:10px;">
-      <!-- 吹き出しがここに追加される -->
-    </div>
-
-    <form id="chatForm">
-      <textarea id="userQuestion" rows="3" style="width:100%;" placeholder="AIに質問してみよう" required></textarea><br>
-      <button type="submit">送信</button>
-    </form>
-  </div>
-</div>
-
 <script>
-  const openBtn = document.getElementById("openChatBtn");
-  const modal = document.getElementById("chatModal");
-  const closeBtn = document.getElementById("closeChatModal");
-  const chatWindow = document.getElementById("chatWindow");
-
-  if (openBtn) openBtn.onclick = () => modal.style.display = "block";
-  if (closeBtn) closeBtn.onclick = () => modal.style.display = "none";
-
-  const chatForm = document.getElementById("chatForm");
-  if (chatForm) {
-    chatForm.onsubmit = async (e) => {
-      e.preventDefault();
-      const question = document.getElementById("userQuestion").value;
-
-      // ユーザー吹き出し
-      const userBubble = document.createElement("div");
-      userBubble.innerHTML = `<div style="text-align:right;"><div style="display:inline-block; background:#DCF8C6; padding:10px; border-radius:10px; margin:5px;">${question}</div></div>`;
-      chatWindow.appendChild(userBubble);
-      chatWindow.scrollTop = chatWindow.scrollHeight;
-
-      try {
-        const response = await fetch("/chat", {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ question })
-        });
-
-        const data = await response.json();
-        const aiAnswer = data.answer || "（AIの回答が取得できませんでした）";
-
-        // AI吹き出し
-        const aiBubble = document.createElement("div");
-        aiBubble.innerHTML = `<div style="text-align:left;"><div style="display:inline-block; background:#F1F0F0; padding:10px; border-radius:10px; margin:5px;">${aiAnswer}</div></div>`;
-        chatWindow.appendChild(aiBubble);
-        chatWindow.scrollTop = chatWindow.scrollHeight;
-
-      } catch (error) {
-        const errorBubble = document.createElement("div");
-        errorBubble.innerHTML = `<div style="text-align:left;"><div style="display:inline-block; background:#F8D7DA; padding:10px; border-radius:10px; margin:5px; color:#721c24;">エラーが発生しました</div></div>`;
-        chatWindow.appendChild(errorBubble);
-      }
-
-      document.getElementById("userQuestion").value = "";
-    };
-  }
-  const fileInput = document.querySelector('input[type="file"]');
+  const dropArea = document.getElementById("drop-area");
+  const fileInput = document.getElementById("fileElem");
   const hintModal = document.getElementById("fileHintModal");
+
+  dropArea.addEventListener("dragover", (e) => {
+    e.preventDefault();
+    dropArea.style.backgroundColor = "#ffeecc";
+  });
+
+  dropArea.addEventListener("dragleave", (e) => {
+    dropArea.style.backgroundColor = "#fff7eb";
+  });
+
+  dropArea.addEventListener("drop", (e) => {
+    e.preventDefault();
+    dropArea.style.backgroundColor = "#fff7eb";
+    fileInput.files = e.dataTransfer.files;
+    alert("ファイルを受け取りました！（アップロードはまだ行いません）");
+  });
 
   if (fileInput && hintModal) {
     fileInput.addEventListener("click", () => {
       hintModal.style.display = "block";
-      // 5秒後に自動で閉じる（任意）
       setTimeout(() => {
         hintModal.style.display = "none";
       }, 5000);
