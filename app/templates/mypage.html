@@ -1,29 +1,71 @@
 {% extends "base.html" %}
-{% block title %}マイページ{% endblock %}
+{% block title %}マイページ | ホジョッタ！{% endblock %}
 {% block content %}
+<style>
+  .section-title {
+    font-size: 1.6rem;
+    font-weight: bold;
+    margin-top: 30px;
+    margin-bottom: 15px;
+  }
+  .file-card {
+    background: #fff7eb;
+    padding: 16px;
+    border-radius: 12px;
+    margin-bottom: 12px;
+    border-left: 6px solid #005a9c;
+  }
+  .file-title {
+    font-weight: bold;
+    font-size: 1.1rem;
+  }
+  .file-meta {
+    font-size: 0.9rem;
+    color: #666;
+    margin-top: 6px;
+  }
+  .file-actions a {
+    margin-right: 15px;
+  }
+  .step-status {
+    font-size: 0.9rem;
+    color: #008000;
+    font-weight: bold;
+  }
+</style>
 
 <h1>👋 {{ username }} さんのマイページ</h1>
 
-<h2>📤 新しい補助金PDFをアップロード</h2>
-<p><a href="/">アップロードページへ</a></p>
-<p>（あなたのID: {{ request.session['user']['id'] }}）</p>
+<!-- ✅ プロフィール未登録時の誘導 -->
+{% if not profile_complete %}
+  <div style="background:#ffeeee; padding:15px; border-left:6px solid red; margin:20px 0; border-radius:10px;">
+    🚧 プロフィールが未登録または未完了です。<br>
+    <a href="/profile"><strong>こちらから登録をお願いします！</strong></a>
+  </div>
+{% endif %}
 
-<h2>📄 アップロード済みファイル一覧</h2>
+<!-- ✅ ステップ1開始誘導 -->
+<h2 class="section-title">📤 新しい補助金を調べてみる</h2>
+<p><a href="/">▶ 補助金の要領（PDF）をアップロードする</a></p>
+
+<!-- ✅ ステップ2以降の進捗確認 -->
+<h2 class="section-title">📁 アップロード済み補助金ファイル</h2>
 {% if uploads %}
-  <ul>
-    {% for upload in uploads %}
-      <li>
-        {{ upload.title or upload.filename }}（{{ upload.upload_time[:10] }}）
-        - <a href="/upload/{{ upload.id }}">[詳細]</a>
-        - <a href="/download/{{ upload.filename }}">[ダウンロード]</a>
-        {% if upload.status %}
-          <br><small style="color:gray;">📌 {{ upload.status }}</small>
-        {% endif %}
-      </li>
-    {% endfor %}
-  </ul>
+  {% for upload in uploads %}
+    <div class="file-card">
+      <div class="file-title">📄 {{ upload.title or upload.filename }}</div>
+      <div class="file-meta">
+        アップロード日: {{ upload.upload_time[:10] }}<br>
+        判定ステータス: <span class="step-status">ステップ2完了</span><br>
+        {% if upload.requirements_summary %} 書類ピックアップ: ✅ 済 {% else %} 書類ピックアップ: ⏳ 未 {% endif %}
+      </div>
+      <div class="file-actions">
+        <a href="/upload/{{ upload.id }}">[詳細]</a>
+        <a href="/download/{{ upload.filename }}">[ダウンロード]</a>
+      </div>
+    </div>
+  {% endfor %}
 {% else %}
   <p>アップロード履歴はまだありません。</p>
 {% endif %}
-
 {% endblock %}

@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <title>アップロード結果 | ホジョッタ！</title>
+  <style>
+    body { font-family: 'Meiryo', sans-serif; background: #f4f8fb; margin: 0; padding: 20px; }
+    .header {
+      background: #eef5fc;
+      padding: 10px 20px;
+      border-radius: 12px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .header img {
+      height: 60px;
+    }
+    .logo { font-weight: bold; font-size: 20px; }
+    .logo::before { content: "📘"; margin-right: 6px; }
+    .nav a { margin: 0 10px; text-decoration: none; color: #005bbb; }
+    .container { max-width: 800px; margin: 30px auto; background: #fff; padding: 24px; border-radius: 12px; box-shadow: 0 2px 8px rgba(0,0,0,0.05); }
+    h1 { font-size: 20px; }
+    .label { font-weight: bold; color: #333; margin-top: 12px; }
+    .status-ok { color: green; font-weight: bold; }
+    .section { margin-top: 30px; }
+    .input-title { padding: 8px; font-size: 1rem; width: 100%; border: 1px solid #ccc; border-radius: 6px; margin-top: 5px; }
+    .submit-btn { margin-top: 10px; padding: 8px 16px; font-size: 1rem; border: none; background: #007bcd; color: white; border-radius: 6px; cursor: pointer; }
+    .step { margin-top: 20px; }
+    .step p { margin: 6px 0; }
+    .highlight { background: #e0ffe0; padding: 4px 8px; border-radius: 4px; font-weight: bold; }
+    ul { margin-left: 20px; }
+  </style>
+</head>
+<body>
+
+    <div class="header">
+        <img src="logo3.png" alt="ホジョッタ" style="height:60px;">
+        <div class="nav">
+          <a href="/">ホーム</a>
+          <a href="/profile">プロフィール</a>
+          <a href="/mypage">マイページ</a>
+          ようこそ、<b>taku.oono</b> さん
+          <a href="/logout">ログアウト</a>
+        </div>
+      </div>
+
+<div class="container">
+  <h1>📄 公募要領_19次締切_20250219.pdf</h1>
+
+  <div class="section">
+    <p class="label">アップロード日：<span>2025-04-18</span></p>
+    <p class="label">申請対象判定：<span class="status-ok">対象</span></p>
+    <p style="margin-top: 6px;">
+      ✅ プロフィール情報（業種：IT、従業員：2名、設立2023年、資本金1万円等）に照らして、本補助金の申請要件を満たしていると判断されます。
+      交付候補者の要件にも合致しており、申請準備を進めることが可能です。
+    </p>
+  </div>
+
+  <div class="section">
+    <label class="label">ファイルタイトル編集</label>
+    <input type="text" class="input-title" value="公募要領_19次締切_20250219.pdf">
+    <button class="submit-btn">変更を保存</button>
+  </div>
+
+  <div class="section step">
+    <p class="label">現在の進捗状況</p>
+    <p>✅ ステップ1：<span class="highlight">要領分析済</span></p>
+    <p>✅ ステップ2：<span class="highlight">申請対象判定済</span></p>
+    <p>🔄 ステップ3：作文作成へ進みます</p>
+    <div style="margin-top: 12px; text-align: center;">
+        <a href="loading_yosiki_mock.html" style="
+          display: inline-block;
+          background: #28a745;
+          color: white;
+          text-decoration: none;
+          padding: 12px 24px;
+          border-radius: 8px;
+          font-size: 1.1rem;
+          font-weight: bold;
+        ">✍️ 作文作成に進む</a>
+      </div>
+      
+  </div>
+
+  <div class="section">
+    <p class="label">提出書類と申請フロー（要点のみ）</p>
+    <ul>
+      <li>① GビズIDプライムの取得</li>
+      <li>② JGrantsアカウントでログイン</li>
+      <li>③ 基本情報入力＋事業計画書をアップロード（PDF）</li>
+      <li>④ 提出書類を確認し、電子申請で提出</li>
+    </ul>
+    <p style="margin-top: 8px;">🔚 最終的には <strong>JGrants上で申請</strong> することで完了となります。</p>
+  </div>
+
+  <div class="section">
+    <p class="label">要件ピックアップ（AIによる抽出結果）</p>
+    <p>📝 以下のような書類や対応が必要です：</p>
+    <ul>
+      <li>✔︎ GビズIDプライム取得済証明</li>
+      <li>✔︎ 決算書2期分（創業間もない場合は収支予算書）</li>
+      <li>✔︎ 労働者名簿・賃金台帳（最低賃金引上げ関連）</li>
+      <li>✔︎ 誓約書類（電子申請内で完結）</li>
+      <li>✔︎ 事業計画書：設備投資・付加価値の増加計画</li>
+    </ul>
+  </div>
+</div>
+
+</body>
+</html>

@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <title>ホジョッタ！| ログイン</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  <style>
+    body {
+      background-color: #fefcf7;
+      font-family: 'Hiragino Kaku Gothic ProN', sans-serif;
+      margin: 0;
+      padding: 60px 20px 30px;
+      color: #333;
+    }
+
+    .logo-wrap {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      margin-bottom: 20px;
+    }
+
+    .logo-wrap i {
+      color: #005a9c;
+      font-size: 1.8rem;
+      margin-right: 10px;
+    }
+
+    .logo-wrap img {
+      height: 80px;
+    }
+
+    h1 {
+      text-align: center;
+      color: #005a9c;
+      font-size: 1.5rem;
+      margin-bottom: 30px;
+    }
+
+    form {
+      max-width: 400px;
+      margin: 0 auto;
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
+
+    input {
+      padding: 12px;
+      font-size: 1rem;
+      border: 1px solid #ccc;
+      border-radius: 10px;
+    }
+
+    button {
+      background-color: #005a9c;
+      color: white;
+      border: none;
+      border-radius: 10px;
+      font-size: 1.1rem;
+      padding: 12px;
+      font-weight: bold;
+      cursor: pointer;
+    }
+
+    button:hover {
+      background-color: #004377;
+    }
+
+    .signup-link {
+      text-align: center;
+      margin-top: 20px;
+    }
+
+    .signup-link a {
+      color: #005a9c;
+      font-weight: bold;
+      text-decoration: none;
+    }
+  </style>
+</head>
+<body>
+  <div class="logo-wrap">
+    <i class="fa-solid fa-building"></i>
+    <img src="logo3.png" alt="ホジョッタロゴ">
+  </div>
+
+  <h1>ログイン</h1>
+
+  <form action="mypage_no_upload.html" method="get">
+    <input type="text" name="username" placeholder="ユーザー名" required>
+    <input type="password" name="password" placeholder="パスワード" required>
+    <button type="submit">ログイン</button>
+  </form>
+
+  <div class="signup-link">
+    アカウントがない方は <a href="#">新規登録</a>
+  </div>
+</body>
+</html>

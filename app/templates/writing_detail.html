@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+
+{% block title %}{{ writing.title }}{% endblock %}
+
+{% block content %}
+<div class="card" style="background:#f9f9f9; padding:20px; border-radius:12px;">
+  <h1>{{ writing.title }}</h1>
+  <p><strong>作成日:</strong> {{ writing.created_at|date:"Y年m月d日 H:i" }}</p>
+  <hr>
+  <div style="white-space: pre-wrap;">
+    {{ writing.content }}
+  </div>
+</div>
+<a href="{% url 'dashboard' %}">← ダッシュボードに戻る</a>
+{% endblock %}

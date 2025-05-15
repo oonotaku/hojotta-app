@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <title>プロフィール登録 | ホジョッタ！</title>
+  <style>
+    body { font-family: 'Meiryo', sans-serif; margin: 0; background: #f4f8fb; }
+
+    .header {
+      background: #eef5fc;
+      padding: 10px 20px;
+      border-radius: 12px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .header img {
+      height: 60px;
+    }
+    .logo {
+      font-weight: bold;
+      font-size: 20px;
+      display: flex;
+      align-items: center;
+    }
+    .logo::before {
+      content: "📘";
+      margin-right: 8px;
+    }
+    .nav {
+      font-size: 15px;
+    }
+    .nav a {
+      margin: 0 10px;
+      text-decoration: none;
+      color: #005bbb;
+    }
+    .nav b {
+      font-weight: bold;
+    }
+
+    .profile-form {
+      max-width: 500px;
+      margin: 40px auto;
+      background: #f9f9f9;
+      padding: 24px;
+      border-radius: 12px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+    }
+    .profile-form label {
+      display: block;
+      margin-top: 16px;
+      font-weight: bold;
+      color: #333;
+    }
+    .profile-form input, .profile-form select {
+      width: 100%;
+      padding: 10px;
+      font-size: 1rem;
+      margin-top: 6px;
+      border: 1px solid #ccc;
+      border-radius: 6px;
+    }
+    .profile-form button {
+      margin-top: 24px;
+      background: #005a9c;
+      color: white;
+      border: none;
+      padding: 12px 20px;
+      border-radius: 8px;
+      font-size: 1.1rem;
+      cursor: pointer;
+    }
+    .note {
+      margin-top: 16px;
+      font-size: 0.9em;
+      color: gray;
+      text-align: center;
+    }
+  </style>
+</head>
+<body>
+
+    <div class="header">
+        <img src="logo3.png" alt="ホジョッタ" style="height:60px;">
+        <div class="nav">
+          <a href="/">ホーム</a>
+          <a href="/profile">プロフィール</a>
+          <a href="/mypage">マイページ</a>
+          ようこそ、<b>taku.oono</b> さん
+          <a href="/logout">ログアウト</a>
+        </div>
+      </div>
+
+  <h1 style="text-align:center;">🏢 企業プロフィール登録</h1>
+
+  <form class="profile-form" action="mypage_after_profile.html" method="get">
+    <label>業種（例: IT, 製造, 建設など）</label>
+    <input type="text" name="industry" value="">
+
+    <label>所在地（都道府県）</label>
+    <input type="text" name="location" value="">
+
+    <label>従業員数</label>
+    <input type="number" name="employees" value="">
+
+    <label>設立年（例: 2020）</label>
+    <input type="text" name="established_year" value="">
+
+    <label>資本金（万円）</label>
+    <input type="text" name="capital" value="">
+
+    <label>GビズID取得状況</label>
+    <select name="gbiz_id">
+      <option value="">選択してください</option>
+      <option value="あり">あり</option>
+      <option value="なし">なし</option>
+    </select>
+
+    <label>インボイス登録</label>
+    <select name="invoice_registered">
+      <option value="">選択してください</option>
+      <option value="はい">はい</option>
+      <option value="いいえ">いいえ</option>
+    </select>
+
+    <button type="submit">保存する</button>
+  </form>
+
+  <p class="note">※ プロフィールを充実させると、AIの対象判定の精度が向上します！</p>
+  <p style="text-align:center;"><a href="/mypage">← マイページに戻る</a></p>
+
+</body>
+</html>

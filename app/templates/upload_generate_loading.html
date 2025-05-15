@@ -1,0 +1,48 @@
+{% extends "base.html" %}
+
+{% block title %}作文生成中 | ホジョッタ！{% endblock %}
+
+{% block content %}
+<style>
+  .loading-box {
+    text-align: center;
+    padding: 80px 20px;
+  }
+  .loading-text {
+    font-size: 1.2rem;
+    color: #333;
+    margin-top: 20px;
+  }
+  .loading-img {
+    width: 120px;
+    animation: bounce 1s infinite alternate;
+  }
+  @keyframes bounce {
+    0%   { transform: translateY(0); }
+    100% { transform: translateY(-10px); }
+  }
+</style>
+
+<div class="loading-box">
+  <img src="/static/logo3.png" alt="ホジョッタが作文中…" class="loading-img" />
+  <p class="loading-text">ホジョッタが作文を生成しています…<br>しばらくお待ちください。</p>
+</div>
+
+<script>
+  async function checkStatus() {
+    try {
+      const res = await fetch("/api/fmt/{{ fmt.id }}/status");
+      const data = await res.json();
+      if (data.ready) {
+        window.location.href = window.location.href.replace("/generate/loading", "/generate");
+      } else {
+        setTimeout(checkStatus, 2000);
+      }
+    } catch (error) {
+      console.error("ステータス確認エラー:", error);
+      setTimeout(checkStatus, 5000);  // エラー時もリトライ
+    }
+  }
+  checkStatus();
+</script>
+{% endblock %}

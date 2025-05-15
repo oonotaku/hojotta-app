@@ -1,46 +1,133 @@
 {% extends "base.html" %}
-{% block title %}アップロード詳細{% endblock %}
+{% block title %}申請ファイル詳細 | ホジョッタ！{% endblock %}
 {% block content %}
 
-<h1>📄 アップロード詳細</h1>
+<style>
+  .card {
+    background: #f9f9f9;
+    border-radius: 12px;
+    padding: 20px;
+    margin-bottom: 30px;
+  }
+  .title-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 10px;
+  }
+  .status-badge {
+    background: #2ecc71;
+    color: white;
+    padding: 4px 10px;
+    border-radius: 6px;
+    font-weight: bold;
+  }
+  .status-badge.ng {
+    background: #e74c3c;
+  }
+  .edit-form {
+    margin-top: 10px;
+  }
+  .icon-list li::before {
+    content: "📎";
+    margin-right: 5px;
+  }
+  .step-status {
+    font-weight: bold;
+    color: #2c3e50;
+    margin-bottom: 5px;
+  }
+  .btn-primary {
+    background: #005a9c;
+    color: white;
+    padding: 8px 20px;
+    border-radius: 6px;
+    text-decoration: none;
+    display: inline-block;
+    margin-top: 10px;
+  }
+</style>
 
-<ul>
-  <li><strong>ファイル名:</strong> {{ upload.filename }}</li>
-  <li><strong>現在のタイトル:</strong> {{ upload.title }}</li>
-  <li><strong>アップロード日時:</strong> {{ upload.upload_time[:19].replace('T', ' ') }}</li>
-</ul>
+<h1>📄 {{ upload.title or upload.filename }}</h1>
 
-<!-- ✏️ タイトル編集フォーム -->
-<h3>タイトルを編集する</h3>
-<form method="post" action="/upload/{{ upload.id }}/edit">
-  <input type="text" name="new_title" value="{{ upload.title }}" required>
-  <button type="submit">保存</button>
+<!-- 🔹 判定ステータス -->
+<div class="card">
+  <div><strong>アップロード日:</strong> {{ upload.upload_time[:10] }}</div>
+
+  <div class="title-row" style="margin-top: 10px;">
+    <div>
+      <strong>申請対象判定:</strong>
+      <span class="status-badge {% if upload.eligibility_status != '対象' %}ng{% endif %}">
+        {{ upload.eligibility_status or "未判定" }}
+      </span>
+    </div>
+
+    <form method="post" action="/upload/{{ upload.id }}/reanalyze">
+      <button type="submit">🔁 AI判定を再実行する</button>
+    </form>
+  </div>
+
+  {% if upload.eligibility_result %}
+    <p style="margin-top:10px; font-size: 0.95rem;">
+      <strong>理由：</strong>{{ upload.eligibility_result }}
+    </p>
+  {% endif %}
+</div>
+
+<!-- 🔹 タイトル編集 -->
+<div class="card">
+  <strong>📝 ファイルタイトル編集</strong>
+  <form class="edit-form" method="post" action="/upload/{{ upload.id }}/edit">
+    <input type="text" name="new_title" value="{{ upload.title }}" required style="width:70%;">
+    <button type="submit">保存</button>
+  </form>
+</div>
+
+<!-- 🔹 ステップ進捗 -->
+<div class="card">
+  <strong>📘 現在の進捗ステップ</strong>
+  <p class="step-status">✅ ステップ2（要領分析と対象判定）まで完了</p>
+  <p>✍️ <strong>ステップ3：ピッチ資料をアップロードしてください</strong></p>
+
+  {% if not upload.pitch_filename %}
+    <form method="post" action="/upload/{{ upload.id }}/pitch" enctype="multipart/form-data">
+      <label><strong>📄 ピッチ資料をアップロード（PDF）:</strong></label><br>
+      <input type="file" name="pitch_file" accept=".pdf" required>
+      <button type="submit">アップロード</button>
+    </form>
+    <p style="font-size: 0.9rem; color: #666; margin-top: 5px;">※ この事業に関するピッチ資料（PDF）をアップしてください。</p>
+  {% else %}
+    <p>✅ ピッチ資料アップロード済: {{ upload.pitch_filename }}</p>
+    <a href="/download_pitch/{{ upload.id }}" class="btn-primary">📥 ダウンロードする</a>
+
+    <form method="post" action="/upload/{{ upload.id }}/pitch/delete" onsubmit="return confirm('このピッチ資料を削除しますか？');" style="display:inline;">
+      <button type="submit" style="margin-left: 10px; color: red;">🗑️ 削除する</button>
+    </form>
+
+    <hr>
+    <a href="/upload/{{ upload.id }}/fmt" class="btn-primary">▶️ 次へ：提出様式（FMT）をアップロード</a>
+  {% endif %}
+</div>
+
+<!-- 🔹 書類・申請フロー -->
+<div class="card">
+  <h3 style="color:#005a9c;">📑 提出書類・申請フロー</h3>
+  {% if upload.requirements_summary %}
+    <ul class="icon-list">
+      {% for line in upload.requirements_summary.splitlines() if line.strip() %}
+        <li>{{ line.strip() }}</li>
+      {% endfor %}
+    </ul>
+  {% else %}
+    <p>（AIによる要約はまだありません）</p>
+  {% endif %}
+</div>
+
+<!-- 🔁 非表示化 -->
+<form method="post" action="/upload/{{ upload.id }}/delete" onsubmit="return confirm('このファイルを非表示にしますか？');">
+  <button type="submit" style="color:red; margin-top: 20px;">🗑️ このファイルを非表示にする</button>
 </form>
-
-<!-- 🔁 再判定ボタン -->
-<h3>🧠 AI判定を再実行</h3>
-<form method="post" action="/upload/{{ upload.id }}/reanalyze">
-  <button type="submit">再判定する</button>
-</form>
-
-<hr>
-
-<h2>🧾 申請に必要なもの・必須の手続き</h2>
-{% if upload.requirements_summary %}
-  <pre style="background:#f0f8ff; padding:1em; border-radius:8px; white-space:pre-wrap;">
-{{ upload.requirements_summary }}
-  </pre>
-{% else %}
-  <p>（AIによる要約はまだありません）</p>
-{% endif %}
-
-<h2>🧠 対象判定</h2>
-<p><strong>判定:</strong> {{ upload.eligibility_status or "未判定" }}</p>
-{% if upload.eligibility_result %}
-  <pre style="background:#fff8dc; padding:1em; border-radius:8px; white-space:pre-wrap;">
-{{ upload.eligibility_result }}
-  </pre>
-{% endif %}
 
 <p><a href="/mypage">← マイページに戻る</a></p>
 

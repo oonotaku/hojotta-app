@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <title>作文生成 | ホジョッタ！</title>
+  <style>
+    body { font-family: 'Meiryo', sans-serif; background: #f4f8fb; margin: 0; padding: 20px; }
+    .header {
+      background: #eef5fc;
+      padding: 10px 20px;
+      border-radius: 12px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .header img {
+      height: 60px;
+    }
+    .logo { font-weight: bold; font-size: 20px; }
+    .logo::before { content: "\1F4D8"; margin-right: 6px; }
+    .nav a { margin: 0 10px; text-decoration: none; color: #005bbb; }
+    .container { max-width: 800px; margin: 30px auto; background: #fff; padding: 30px; border-radius: 12px; box-shadow: 0 2px 8px rgba(0,0,0,0.05); }
+    h1 { font-size: 22px; margin-bottom: 20px; }
+    .section { margin-top: 30px; }
+    .section p { font-size: 16px; line-height: 1.6; }
+    .link-button, .upload-button {
+      display: inline-block;
+      margin-top: 16px;
+      padding: 10px 20px;
+      background: #007bcd;
+      color: white;
+      border: none;
+      border-radius: 8px;
+      text-decoration: none;
+      font-size: 1rem;
+      cursor: pointer;
+    }
+    .upload-button { background: #28a745; }
+  </style>
+</head>
+<body>
+
+    <div class="header">
+        <img src="logo3.png" alt="ホジョッタ" style="height:60px;">
+        <div class="nav">
+          <a href="/">ホーム</a>
+          <a href="/profile">プロフィール</a>
+          <a href="/mypage">マイページ</a>
+          ようこそ、<b>taku.oono</b> さん
+          <a href="/logout">ログアウト</a>
+        </div>
+      </div>
+
+  <div class="container">
+    <h1>✍️ 補助金向け事業計画 作文生成</h1>
+
+    <div class="section">
+      <p>📄 今、補助金には<strong>様式に合わせた事業計画書</strong>の作成が必須です。</p>
+      <a href="https://portal.monodukuri-hojo.jp/common/bunsho/ippan/19th/%E5%8F%82%E8%80%83%E6%A7%98%E5%BC%8F_%E4%BA%8B%E6%A5%AD%E8%A8%88%E7%94%BB%E6%9B%B8%E8%A8%98%E8%BC%89%E9%A0%85%E7%9B%AE_19%E6%AC%A1%E7%B7%A0%E5%88%87_20250303.docx" target="_blank" class="link-button">
+        📎 様式を確認する
+      </a>
+    </div>
+
+    <div class="section">
+      <p>✍️ 作文を自動生成するには、事業内容が必要です。</p>
+      <p>📄 ピッチ資料（PDF）をアップロードしてください。<br>
+        （スタートアップの皆さまは、既に作成済の方が多いです）</p>
+
+      <form action="upload_pitch_dragdrop.html" method="get">
+        <button type="submit" class="upload-button">📤 ピッチ資料をアップロードする</button>
+      </form>
+    </div>
+  </div>
+
+</body>
+</html>

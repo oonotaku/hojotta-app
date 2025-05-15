@@ -1,51 +1,36 @@
 {% extends "base.html" %}
-{% block title %}プロフィール登録{% endblock %}
+{% block title %}プロフィール編集 | ホジョッタ{% endblock %}
 {% block content %}
+<h1>📋 プロフィール編集</h1>
+<form method="post" action="/profile">
+  <label>社名：</label><br>
+  <input type="text" name="company_name" value="{{ user.company_name or '' }}"><br><br>
 
-<h1>🏢 企業プロフィール登録・編集</h1>
+  <label>業種：</label><br>
+  <input type="text" name="industry" value="{{ user.industry or '' }}"><br><br>
 
-<form action="/profile" method="post">
-  <label>業種:
-    <input type="text" name="industry" value="{{ profile.get('業種', '') }}" required>
-  </label><br><br>
+  <label>所在地：</label><br>
+  <input type="text" name="location" value="{{ user.location or '' }}"><br><br>
 
-  <label>所在地（都道府県）:
-    <input type="text" name="location" value="{{ profile.get('所在地', '') }}" required>
-  </label><br><br>
+  <label>従業員数：</label><br>
+  <input type="text" name="employee_count" value="{{ user.employee_count or '' }}"><br><br>
 
-  <label>従業員数:
-    <input type="number" name="employees" value="{{ profile.get('従業員数', '') }}" required>
-  </label><br><br>
+  <label>設立年月（例：2020-01）：</label><br>
+  <input type="text" name="founded_date" value="{{ user.founded_date or '' }}"><br><br>
 
-  <label>設立年:
-    <input type="text" name="established_year" value="{{ profile.get('設立年', '') }}">
-  </label><br><br>
+  <label>法人種別（例：株式会社／個人事業主など）：</label><br>
+  <input type="text" name="company_type" value="{{ user.company_type or '' }}"><br><br>
 
-  <label>資本金（万円）:
-    <input type="text" name="capital" value="{{ profile.get('資本金', '') }}">
-  </label><br><br>
+  <label>納税地：</label><br>
+  <input type="text" name="tax_location" value="{{ user.tax_location or '' }}"><br><br>
 
-  <label>GビズID取得状況:
-    <select name="gbiz_id">
-      <option value="あり" {% if profile.get('GビズID') == 'あり' %}selected{% endif %}>あり</option>
-      <option value="なし" {% if profile.get('GビズID') == 'なし' %}selected{% endif %}>なし</option>
-    </select>
-  </label><br><br>
+  <label>資本金：</label><br>
+  <input type="text" name="capital" value="{{ user.capital or '' }}"><br><br>
 
-  <label>インボイス登録:
-    <select name="invoice_registered">
-      <option value="はい" {% if profile.get('インボイス登録') == 'はい' %}selected{% endif %}>はい</option>
-      <option value="いいえ" {% if profile.get('インボイス登録') == 'いいえ' %}selected{% endif %}>いいえ</option>
-    </select>
-  </label><br><br>
+  <label>GビズIDはありますか？</label><br>
+  <input type="checkbox" name="has_gbizid" value="1" {% if user.has_gbizid %}checked{% endif %}><br><br>
 
   <button type="submit">保存する</button>
 </form>
-
-<p style="color: gray; font-size: 0.9em;">
-※ プロフィールを充実させると、AIの対象判定の精度が向上します！
-</p>
-
-<p><a href="/mypage">← マイページに戻る</a></p>
-
+<p><a href="/mypage">← マイページへ戻る</a></p>
 {% endblock %}

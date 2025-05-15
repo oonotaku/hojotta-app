@@ -1,0 +1,56 @@
+{% extends "base.html" %}
+{% block title %}提出様式一覧 | ホジョッタ！{% endblock %}
+{% block content %}
+
+<div class="card">
+    <h2>📘 この事業の概要</h2>
+    <p><strong>📄 公募要領ファイル名：</strong> {{ upload.filename }}</p>
+    <p><strong>📎 ピッチ資料：</strong>
+      {% if upload.pitch_filename %}
+        {{ upload.pitch_filename }}
+        <a href="/download_pitch/{{ upload.id }}" style="margin-left:10px;">📥 ダウンロード</a>
+      {% else %}
+        未アップロード
+      {% endif %}
+    </p>
+    <p><strong>⏱️ 公募要領アップロード日：</strong> {{ upload.upload_time[:10] }}</p>
+  </div>
+  
+
+<h1>📁 提出様式（FMT）一覧</h1>
+
+<!-- 🔽 既存のFMT一覧 -->
+{% if fmt_files %}
+  {% for fmt in fmt_files %}
+    <div class="card">
+      <p>📄 {{ fmt.filename }}</p>
+      <p><small>アップロード日: {{ fmt.uploaded_at[:10] }}</small></p>
+      {% if fmt.section %}
+        <p>📌 区分: {{ fmt.section }}</p>
+      {% endif %}
+      {% if not fmt.has_generated %}
+        <a href="/upload/{{ upload.id }}/fmt/{{ fmt.id }}/generate" class="btn-primary">作文を生成する</a>
+      {% else %}
+        <p>✅ 作文済み</p>
+      {% endif %}
+      <form method="post" action="/upload/{{ upload.id }}/fmt/{{ fmt.id }}/delete" onsubmit="return confirm('削除してよろしいですか？');">
+        <button type="submit" style="color:red;">🗑️ 削除する</button>
+      </form>
+    </div>
+  {% endfor %}
+{% else %}
+  <p>📭 まだ提出様式はアップロードされていません。</p>
+{% endif %}
+
+<hr>
+
+<!-- 🔼 アップロードフォーム -->
+<h3>📤 提出様式を追加アップロード</h3>
+<form method="post" action="/upload/{{ upload.id }}/fmt/add" enctype="multipart/form-data">
+  <input type="file" name="fmt_file" accept=".pdf,.doc,.docx" required>
+  <button type="submit">アップロード</button>
+</form>
+
+<p><a href="/upload/{{ upload.id }}">← 戻る</a></p>
+
+{% endblock %}

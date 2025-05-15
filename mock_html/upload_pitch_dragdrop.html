@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <title>ピッチ資料アップロード | ホジョッタ！</title>
+  <style>
+    body { font-family: 'Meiryo', sans-serif; background: #f4f8fb; margin: 0; }
+    .header {
+      background: #eef5fc;
+      padding: 10px 20px;
+      border-radius: 12px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .header img {
+      height: 60px;
+    }
+    .logo {
+      font-weight: bold;
+      font-size: 20px;
+      display: flex;
+      align-items: center;
+    }
+    .logo::before { content: "\1F4D8"; margin-right: 6px; }
+    .nav a {
+      margin: 0 10px;
+      text-decoration: none;
+      color: #005bbb;
+    }
+    .container {
+      max-width: 600px;
+      margin: 40px auto;
+      padding: 20px;
+      text-align: center;
+    }
+    .drop-area {
+      border: 3px dashed #aaa;
+      border-radius: 12px;
+      background: #fff;
+      padding: 40px;
+      cursor: pointer;
+      transition: border-color 0.3s, background 0.3s;
+    }
+    .drop-area.dragover {
+      border-color: #007bcd;
+      background: #f0f8ff;
+    }
+    .drop-area p {
+      font-size: 16px;
+      color: #666;
+    }
+    .file-name {
+      margin-top: 20px;
+      color: green;
+      font-weight: bold;
+    }
+    #uploadBtn {
+      display: none;
+      margin-top: 30px;
+      padding: 12px 24px;
+      background: #007bcd;
+      color: white;
+      border: none;
+      border-radius: 8px;
+      font-size: 1rem;
+      cursor: pointer;
+    }
+    #uploadBtn:hover {
+      background: #005a9c;
+    }
+  </style>
+</head>
+<body>
+  <div class="header">
+    <img src="logo3.png" alt="ホジョッタ" style="height:60px;">
+    <div class="nav">
+      <a href="/">ホーム</a>
+      <a href="/profile">プロフィール</a>
+      <a href="/mypage">マイページ</a>
+      ようこそ、<b>taku.oono</b> さん
+      <a href="/logout">ログアウト</a>
+    </div>
+  </div>
+
+  <div class="container">
+    <h1>📤 ピッチ資料をアップロード</h1>
+
+    <div class="drop-area" id="drop-area">
+      <p>ここにピッチ資料（PDF）をドラッグ＆ドロップするか、クリックして選択してください</p>
+      <input type="file" id="fileElem" accept="application/pdf" style="display:none">
+    </div>
+
+    <div class="file-name" id="fileName"></div>
+    <button id="uploadBtn">アップロードして作文生成へ進む</button>
+  </div>
+
+  <script>
+    const dropArea = document.getElementById("drop-area");
+    const fileElem = document.getElementById("fileElem");
+    const fileNameDisplay = document.getElementById("fileName");
+    const uploadBtn = document.getElementById("uploadBtn");
+
+    dropArea.addEventListener("click", () => fileElem.click());
+
+    dropArea.addEventListener("dragover", (e) => {
+      e.preventDefault();
+      dropArea.classList.add("dragover");
+    });
+
+    dropArea.addEventListener("dragleave", () => {
+      dropArea.classList.remove("dragover");
+    });
+
+    dropArea.addEventListener("drop", (e) => {
+      e.preventDefault();
+      dropArea.classList.remove("dragover");
+      const file = e.dataTransfer.files[0];
+      if (file) {
+        fileNameDisplay.textContent = `✅ アップロード準備完了: ${file.name}`;
+        uploadBtn.style.display = "inline-block";
+      }
+    });
+
+    fileElem.addEventListener("change", () => {
+      const file = fileElem.files[0];
+      if (file) {
+        fileNameDisplay.textContent = `✅ アップロード準備完了: ${file.name}`;
+        uploadBtn.style.display = "inline-block";
+      }
+    });
+
+    uploadBtn.addEventListener("click", () => {
+      window.location.href = "loading_mock.html";
+    });
+  </script>
+
+</body>
+</html>

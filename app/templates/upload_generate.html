@@ -1,0 +1,53 @@
+{% extends "base.html" %}
+{% block title %}作文結果 | ホジョッタ！{% endblock %}
+{% block content %}
+
+<style>
+  .card {
+    background: #f9f9f9;
+    border-radius: 12px;
+    padding: 20px;
+    margin-bottom: 30px;
+  }
+  textarea {
+    width: 100%;
+    padding: 10px;
+    border-radius: 8px;
+    font-size: 0.95rem;
+    background: #fefefe;
+  }
+  h3 {
+    margin-bottom: 10px;
+    color: #005a9c;
+  }
+</style>
+
+<h1>📝 作文結果</h1>
+
+<div class="card">
+  <p><strong>📄 提出様式（FMT）:</strong> {{ fmt.filename }}</p>
+  <p><strong>📎 ピッチ資料:</strong> {{ upload.pitch_filename }}</p>
+</div>
+
+{% if sections %}
+  <div class="card">
+    <h2>✍️ セクション別の作文</h2>
+    {% for section in sections %}
+      <div style="margin-top: 20px;">
+        <h3>{{ section.title }}</h3>
+        <textarea rows="8" readonly>{{ section.content }}</textarea>
+      </div>
+    {% endfor %}
+  </div>
+{% else %}
+<div class="card">
+    <p>⚠️ 作文がまだ生成されていません。</p>
+    <form method="post" action="/upload/{{ upload.id }}/fmt/{{ fmt.id }}/generate/run">
+      <button type="submit" class="btn-primary">GPTで作文を生成する</button>
+    </form>
+  </div>
+{% endif %}
+
+<p><a href="/upload/{{ upload.id }}/fmt">← 提出様式一覧に戻る</a></p>
+
+{% endblock %}

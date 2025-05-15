@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <title>ホジョッタが準備中...</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <style>
+    body {
+      background-color: #f4f8fb;
+      font-family: 'Meiryo', sans-serif;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      margin: 0;
+      text-align: center;
+    }
+
+    .logo-walk img {
+      height: 80px;
+      animation: walk 0.6s infinite alternate ease-in-out;
+    }
+
+    @keyframes walk {
+      0% { transform: translateX(0px); }
+      100% { transform: translateX(20px); }
+    }
+
+    p {
+      font-size: 1.2rem;
+      color: #005a9c;
+      margin-top: 30px;
+    }
+  </style>
+  <script>
+    setTimeout(() => {
+      window.location.href = "loading_seiseityu_mock.html";
+    }, 5000);
+  </script>
+</head>
+<body>
+  <div class="logo-walk">
+    <img src="logo3.png" alt="ホジョッタロゴ">
+  </div>
+  <p>ホジョッタがピッチ資料を読み込み中です...</p>
+</body>
+</html>
